@@ -6,7 +6,7 @@
  * @Veresion 1.0
  */
 public class CreateDemo1 {
-    private static int COUNT=10_0000;
+    private static int COUNT=100_0000;
     private static class MyThread extends Thread{
 
         @Override
@@ -16,11 +16,6 @@ public class CreateDemo1 {
                 sum+=i;
             }
             System.out.printf("1+2+……+n=%d%n",sum);
-            try{
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
     private static class MyThread2 extends Thread{
@@ -31,11 +26,6 @@ public class CreateDemo1 {
                 sum+=i;
             }
             System.out.printf("1+3+……+n=%d%n",sum);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
     private static class MyThread3 extends Thread{
@@ -43,21 +33,24 @@ public class CreateDemo1 {
         public void run() {
             long sum=0;
             for(int i=0;i<=COUNT;i++){
-                sum+=(1*i);
+                sum+=(i*i);
             }
             System.out.printf("1*1+2*2+……+n*n=%d%n",sum);
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+        long begin=System.currentTimeMillis();
         Thread thread1=new MyThread();
         Thread thread2=new MyThread2();
         Thread thread3=new MyThread3();
-        /*Thread runnable=new MyThread();
-        Thread thread1=new Thread(runnable);
-        Thread thread2=new Thread(runnable);
-        Thread thread3=new Thread(runnable);*/
+
         thread1.start();
         thread2.start();
         thread3.start();
+        thread1.join();;
+        thread2.join();
+        thread3.join();
+        long end=System.currentTimeMillis();
+        System.out.println((end-begin)*1.0/1000);
     }
 }

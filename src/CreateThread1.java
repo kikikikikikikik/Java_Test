@@ -20,17 +20,42 @@ public class CreateThread1 {
                 n++;
             }
         }
-        private static class Resource{
-            public int n=0;
+
+    }
+    private static class Resource{
+        public int n=0;
+    }
+    private static class MyThread2 extends Thread{
+        private Resource resource;
+
+        public MyThread2(Resource resource) {
+            this.resource = resource;
+        }
+
+        @Override
+        public void run() {
+            while(resource.n<10){
+                System.out.println(resource.n);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                resource.n++;
+            }
         }
     }
     public static void main(String[] args) {
         /*Thread thread1=new MyThread();
         Thread thread2=new MyThread();*/
-        Thread thread1=new Thread(new MyThread());
-        Thread thread2=new Thread(new MyThread());
-
+       /* Thread thread1=new Thread(new MyThread());
+        Thread thread2=new Thread(new MyThread());*/
+        Resource resource=new Resource();
+        Thread thread1=new MyThread2(resource);
+        Thread thread2=new MyThread2(resource);
         thread1.start();
         thread2.start();
+
+
     }
 }
