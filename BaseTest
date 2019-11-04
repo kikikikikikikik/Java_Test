@@ -1,0 +1,328 @@
+import java.util.*;
+
+/**
+ * @ClassName Test
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/4  14:02
+ * @Veresion 1.0
+ */
+public class Test {
+    //1.根据天数（46）计算周数和剩余的天数
+   /*public static void Week(int n){
+        System.out.println(n+"天是"+n/7+"周"+n%7+"天");
+    }
+    public static void main(String[] args) {
+        System.out.println("输入你要求的天数");
+        Scanner scanner=new Scanner(System.in);
+        Week(scanner.nextInt());
+    }*/
+    //2.已知圆的半径radius= 1.5，求其面积
+    /*public static void area(double radius){
+        System.out.println("圆的面积为："+radius*radius*Math.PI);
+    }
+
+    public static void main(String[] args) {
+        double radius=3;
+        area(radius);
+    }*/
+    //3.判断用户输入的数是否是偶数并且画出他们的流程图
+   /* public static boolean Enumber(int n){
+        if(n%2==0){
+            return true;
+        }
+        return false;
+    }
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        if(Enumber(sc.nextInt())){
+            System.out.println("输入的数为偶数");
+        }
+        else{
+            System.out.println("输入的数是奇数");
+        }
+    }*/
+   //4.实现计算器功能，用户输入两个数，并且当用户
+    //	按1时：求出两个数的和
+    //	按2时：求出两个数的差
+    //	按3时：求出两个数的积
+    //	按4时：求出两个数的商
+    //	否则，求出两个数的余
+   /* private static void cal(int m,int n){
+        Scanner sc=new Scanner(System.in);
+        switch (sc.nextInt()){
+            case 1:
+                System.out.println(m+"和"+n+"的和为："+(m+n));
+                break;
+            case 2:
+                System.out.println(m+"和"+n+"的差为："+(m-n));
+                break;
+            case 3:
+                System.out.println(m+"和"+n+"的乘积为："+(m*n));
+                break;
+            case 4:
+                System.out.println(m+"和"+n+"的商为："+(m/n));
+                break;
+                default:
+                    System.out.println(m+"和"+n+"的取余为："+(m%n));
+        }
+    }
+    public static void main(String[] args) {
+        System.out.println("请输入两个操作数：");
+        Scanner sc=new Scanner(System.in);
+        int m=sc.nextInt();
+        int n=sc.nextInt();
+        cal(m,n);
+    }*/
+   //5.任意输入三个数，然后按从大到小的顺序输出
+    /*private static void sort(int x,int y,int z){
+        int t;
+        if(x<y){
+            t=x;x=y;y=t;
+        }
+        if(x<z){
+            t=x;x=z;z=t;
+        }
+        if(y<z){
+            t=y;y=z;z=t;
+        }
+        System.out.printf("%d %d %d%n",x,y,z);
+    }
+    public static void main(String[] args) {
+        System.out.println("请输入要排序的三个数");
+        Scanner sc=new Scanner(System.in);
+        int x=sc.nextInt();
+        int y=sc.nextInt();
+        int z=sc.nextInt();
+        sort(x,y,z);
+    }*/
+    //6.任意输出五个数，判断里边有无重复的数
+    /*private static boolean ReNum(int[] num){
+        for(int i=0;i<num.length;i++){
+            for(int j=i+1;j<num.length;j++){
+                if(num[i]==num[j]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("请输入五个操作数：");
+        Scanner sc=new Scanner(System.in);
+        int[] num=new int[5];
+        int i=0;
+        while(i<num.length){
+            num[i++]=sc.nextInt();
+        }
+        if( ReNum(num))
+        System.out.println("该五个数据中有重复数据！");
+        else {
+            System.out.println("该五个数据中无重复数据！");
+        }
+    }*/
+    //7.用if…else if语句判断闰年问题
+   /*private static boolean isLeap(int year){
+       if(((year%4==0)&&(year%100!=0))||(year%400==0)){
+           return true;
+       }
+       return false;
+   }
+
+    public static void main(String[] args) {
+        System.out.println("输入你想判断的年份：");
+        Scanner sc=new Scanner(System.in);
+        if(isLeap(sc.nextInt())){
+            System.out.println("该年是闰年！");
+        }
+        else System.out.println("该年是平年！");
+    }*/
+   //8.要求输入一个代表年月日的8位整数，计算出其上一天和下一天是什么日期
+   /* private static void Nextday(int num){
+        int year=num/10000;
+        int month=(num%10000)/100;
+        int day=num%100_0000;
+        int nextday=day+1;
+        if(nextday)
+    }*/
+   //10.求出100以内所有偶数的和
+    /*private static int sum(){
+        int s=0;
+        for(int i=0;i<=100;i+=2){
+            s+=i;
+        }
+        return s;
+    }
+
+    public static void main(String[] args) {
+        System.out.printf("100以内的所有偶数之和为：%d",sum());
+    }*/
+    /*11.使用do-while实现：输出摄氏温度与华氏温度的对照表，要求它从摄氏温度0度到250度，每隔20度为一项，对照表中的条目不超过10条。
+    转换关系：华氏温度 = 摄氏温度 * 9 / 5.0 + 32
+    提示：	1、循环操作：计算摄氏温度，并输出对照条目
+			2、循环条件：条目<=10 && 摄氏温度 <= 250*/
+    /*public static void main(String[] args) {
+        HashMap<Double,Double> tem=new HashMap<>();
+        int i=0;
+        double Fah;
+        double Cel=20;
+            do{
+                 Cel+=20;
+                 Fah=(Cel*9/5.0)+32;
+                 i++;
+                System.out.println("华氏温度："+Fah+"对应的摄氏温度为："+Cel);
+            }while(i<=10&&Cel<=250);
+    }*/
+    //12.输出100以内能被7整除的前5个数
+    /*public static void main(String[] args) {
+        int i=1;
+        int k=0;
+        System.out.print("能被7整除的前5个数为：");
+        while(i<100&&k<5){
+            if(i%7==0){
+                k++;
+                System.out.printf("%d  ",i);
+            }
+            i++;
+        }
+    }*/
+    //13.缸子里一共有50升水。现有15升。每次能挑5升。要挑几次才能挑满
+   /* public static void main(String[] args) {
+        int sum=50;
+        int eve=5;
+        int remain=15;
+        int time=0;
+        while((sum-remain)>0){
+           time++;
+           sum-=eve;
+        }
+        System.out.println("还需要"+time+"次");
+    }*/
+   //14.求出1!+2!+...+n!是多少？（使用while来做）
+    /*public static void main(String[] args) {
+        System.out.println("输入计算的项数：");
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int i=1;
+        int sum=0;
+        while((i++)<n){
+            int j=1;
+            int s=1;
+            while((j++)<i){
+                s*=j;
+            }
+            sum+=s;
+        }
+        System.out.println("1!+2!+...+n!"+"="+sum);
+    }*/
+    //15.用while循环方式做一个图形！直角三角形！
+    //16.要求用户输入一个数，使用do-while将它反转过去！
+    /*public static void main(String[] args) {
+        System.out.println("输入目标数字：");
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int s=0;
+        while(n!=0){
+            int a=n%10;
+            s=s*10+a;
+            n/=10;
+        }
+        System.out.println("反转后的数字为："+s);
+    }*/
+    //17.打印出九九乘法表
+   /* public static void main(String[] args) {
+        for(int i=1;i<10;i++){
+            for(int j=1;j<=i;j++){
+                System.out.printf("%2d*%2d=%2d ",i,j,i*j);
+            }
+            System.out.println();
+        }
+    }*/
+   //18.求出1000以内所有能被4和5整除并且不能被3整除的数之和
+    /*public static void main(String[] args) {
+        int sum=0;
+        for(int i=0;i<1000;i++){
+            if((i%4==0)&&(i%5==0)&&(i%3!=0)){
+                sum+=i;
+            }
+        }
+        System.out.println("1000以内所有能被4和5整除并且不能被3整除的数之和为:"+sum);
+    }*/
+    //19.有一个猜数字游戏，系统随机生成一个数用户来猜，每人有10次机会。当用户猜完之后统计用户得分情况（猜对一次给1分，
+    // 猜错不得分），每一个档次的分数所给出的提示不同。（要求当用户连续输入三次错误的时候直接退出并给出评价）
+   //20.1~10之间的整数相加，得到累加值大于20的当前数.
+    /*public static void main(String[] args) {
+        int sum=0;
+        for(int i=0;i<10;i++){
+            sum+=i;
+            if(sum>20){
+                System.out.println("累计值大于20的是："+i);
+                return;
+            }
+        }
+    }*/
+   // 21.求出1000以内所有能被9整除的数之和，每行显示5个数
+    /*public static void main(String[] args) {
+        int j=0;
+        for(int i=0;i<1000;i++){
+            if(i%9==0){
+                if(j<5){
+                    System.out.printf("%5d",i);
+                }
+                if(j==5){
+                    j=0;
+                    System.out.println();
+                    System.out.printf("%5d",i);
+                }
+                j++;
+            }
+        }
+    }*/
+    //22.求出10的N次方的值，N为用户输入的
+   /* public static void main(String[] args) {
+        System.out.println("请输入N：");
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int s=1;
+        while(n>0){
+            s*=10;
+            n--;
+        }
+        System.out.println("10的N次方的值为："+s);
+    }*/
+   //23.循环打印出26个英文字母，并按照通用排列表排列（提示a是97，显示出来4行，每行显示6到7个）
+   /* public static void main(String[] args) {
+        int num=0;
+        while(num<26){
+            for(int i=0;(i<7)&&(num<26);i++){
+                System.out.printf("%2c",num+'a');
+                num++;
+            }
+            System.out.println();
+        }
+    }*/
+   //24.使用for循环求出第一个数+第二个数=第三个数 依此类推的
+    // 要求循环的次数是用户界面输入的（初始定义第一个数为1，第二个数为1）
+    //    然后打印出这个数列（斐波那契数）
+    private static int Fib(int n){
+        if((n==1)||(n==2)){
+            return 1;
+        }
+        int f1=1;
+        int f2=1;
+        int c=2;
+        for(int i=3;i<=n;i++){
+            c=f1+f2;
+            f1=f2;
+            f2=c;
+        }
+        return c;
+    }
+    public static void main(String[] args) {
+        System.out.println("请输入斐波那契数的项数：");
+        Scanner sc=new Scanner(System.in);
+        System.out.println("所求的斐波那契数为："+Fib(sc.nextInt()));
+
+    }
+}
