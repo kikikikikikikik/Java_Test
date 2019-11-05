@@ -25,4 +25,5 @@ public class JoinTest {
         //Thread.sleep(1000);//Terminated
         System.out.println(thread.getState());//Runnable
     }
+    
 }
