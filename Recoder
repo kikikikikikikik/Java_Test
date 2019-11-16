@@ -1,0 +1,28 @@
+public class Recoder {
+    private static int s0=0;
+    private static int s2=0;
+    private static int s1=0;
+    private static class Set extends Thread{
+        @Override
+        public void run() {
+            s0=1;
+            s1=2;
+            s2=3;
+        }
+    }
+    private static class Print extends Thread{
+        @Override
+        public void run() {
+            System.out.println(s0);
+            System.out.println(s1);
+            System.out.println(s2);
+        }
+    }
+
+    public static void main(String[] args) {
+        Thread t1=new Set();
+        Thread t2=new Print();
+        t1.start();
+        t2.start();
+    }
+}
