@@ -1,0 +1,66 @@
+import java.util.*;
+
+/**
+ * @ClassName MapTest
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/25  14:43
+ * @Veresion 1.0
+ */
+public class MapTest {
+   /* public static void main(String[] args) {
+        //创建Map集合
+        Map persons=new HashMap<>();
+        //2.存储键值对
+        persons.put("1001","A");
+        persons.put("1002","B");
+        persons.put("1003","C");
+        persons.put("1004","D");
+        persons.put("1001","W");
+        //3.判断键值对的个数
+        //Map中的key是无序不可重复的，和ashSet相同.
+        System.out.println(persons.size());//4
+        //4.判断集合中是否包含这样的key
+        System.out.println(persons.containsKey("1001"));//true
+        //5.判断集合中是否包含这样的value
+        //注意：Map中如果key重复了，value采用的是“覆盖”
+        System.out.println(persons.containsValue("W"));//true
+        //6.通过key获得value
+        System.out.println(persons.get("1001"));//W
+        //7.通过key删除键值对
+        persons.remove("1003");
+        System.out.println(persons.size());//3
+        //8.获取所有的value
+        Collection values=persons.values();
+        Iterator it=values.iterator();
+        while(it.hasNext()){
+            System.out.println(it.next());//D B W
+        }
+        //9.获取所有的key
+        Set keys=persons.keySet();
+        Iterator iterator=keys.iterator();
+        while(iterator.hasNext()){
+            Object key=iterator.next();
+            Object v=persons.get(key);
+            System.out.println(key+"--->"+v);//1004--->D 1002--->B 1001--->W
+        }
+        //10.entrySet
+        Set set=persons.entrySet();
+        Iterator it2=set.iterator();
+        while (it2.hasNext()){
+            System.out.println(it2.next());//1004=D 1002=B 1001=W
+        }
+    }*/
+   public static void main(String[] args) {
+       //创建属性类对象
+       Properties p=new Properties();
+       //2.存
+       //key不能重复，如果重复发生覆盖
+       p.setProperty("1111","jjj");
+       p.setProperty("1123","ffff");
+       p.setProperty("14","7");
+       //3.取，通过key获取value
+       String v1=p.getProperty("1111");
+       System.out.println(v1);
+   }
+}
