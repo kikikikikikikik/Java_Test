@@ -1,0 +1,93 @@
+import java.util.*;
+
+/**
+ * @ClassName GenerioTest
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/25  16:30
+ * @Veresion 1.0
+ */
+public class GenerioTest {
+    /*public static void main(String[] args) {
+        //创建一个List集合，只能存储字符串类型
+       *//* List<String> list=new ArrayList<>();
+        //添加元素
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        //遍历
+        Iterator<String> it=list.iterator();
+        while(it.hasNext()){
+            String s=it.next();
+            System.out.println(s);
+        }*//*
+       //Map使用泛型
+        Map<String,Integer>maps=new HashMap<>();
+        maps.put("苹果",3);
+        maps.put("香蕉",2);
+        maps.put("橘子",5);
+        //遍历
+        Set<String> keys=maps.keySet();
+        Iterator<String> it=keys.iterator();
+        while(it.hasNext()){
+            String k=it.next();
+            Integer v=maps.get(k);
+            System.out.println(k+"--->"+v);
+        }
+    }*/
+    //SortedSet使用泛型
+    public static void main(String[] args) {
+        SortedSet<Manager> ss=new TreeSet<>();
+        Manager m1=new Manager(11000);
+        Manager m2=new Manager(10543);
+        Manager m3=new Manager(10334);
+        Manager m4=new Manager(10020);
+        ss.add(m1);
+        ss.add(m2);
+        ss.add(m3);
+        ss.add(m4);
+        Iterator<Manager> it=ss.iterator();
+        while(it.hasNext()){
+            Manager m=it.next();
+            System.out.println(m);
+        }
+    }
+}
+class Manager implements Comparable<Manager>{
+    double sal;
+    public Manager(double sal) {
+        this.sal = sal;
+    }
+    @Override
+    public String toString() {
+        return sal+"";
+    }
+
+    @Override
+    public int compareTo(Manager o) {
+        double s1=this.sal;
+        double s2=o.sal;
+        if(s1==s2){
+            return 0;
+        }
+        if(s1>s2){
+            return 1;
+        }
+        return -1;
+    }
+}
+
+public class GenerioTest2 {
+    public static void main(String[] args) {
+        MyClass<String> mc=new MyClass<String>();
+        //泛型就是编译期检查类型
+        mc.m1("J");
+        //mc.m1(100);//编译错误
+    }
+}
+//自定义泛型
+class MyClass<T> {
+    public void m1(T t){
+        System.out.println(t);
+    }
+}
