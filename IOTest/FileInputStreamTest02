@@ -1,0 +1,30 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+/**
+ * @ClassName FileInputStreamTest02
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/25  21:47
+ * @Veresion 1.0
+ */
+public class FileInputStreamTest02 {
+    public static void main(String[] args) throws IOException {
+        //1.创建流
+        FileInputStream fis=new FileInputStream("D:\\练习\\temp01.txt");
+       /* while(true){
+            int temp=fis.read();
+            if(temp==-1){
+                break;
+            }
+            System.out.println(temp);
+        }*/
+       //升级循环
+        int temp=0;
+        while((temp=fis.read())!=-1){
+            System.out.println(temp);
+        }
+        fis.close();
+    }
+}
