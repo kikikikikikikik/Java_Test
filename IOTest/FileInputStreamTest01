@@ -1,0 +1,46 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+/**
+ * @ClassName FileInputStreamTest01
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/25  20:56
+ * @Veresion 1.0
+ */
+//按照字节方式读取文件
+public class FileInputStreamTest01 {
+    public static void main(String[] args) {
+        //1.要读取某文件，先与这个文件创建一个“输入流”
+        //文件路径
+        String filePath="D:\\练习\\temp01.txt";
+        FileInputStream fis = null;
+        try {
+            fis=new FileInputStream(filePath);
+            //2.开始读
+            int i1=fis.read();
+            int i2=fis.read();
+            int i3=fis.read();
+            int i4=fis.read();//如果已经读取到文件的末尾，就会返回-1
+            System.out.println(i1);
+            System.out.println(i2);
+            System.out.println(i3);
+            System.out.println(i4);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            //为了保证流一定会释放，所以在finally语句块中执行
+            if(fis!=null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+}
