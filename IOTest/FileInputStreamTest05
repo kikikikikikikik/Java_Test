@@ -1,0 +1,23 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+/**
+ * @ClassName FileInputStreamTest05
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/26  21:38
+ * @Veresion 1.0
+ */
+public class FileInputStreamTest05 {
+    public static void main(String[] args) throws IOException {
+        FileInputStream fis=new FileInputStream("D:\\练习\\temp01.txt");//abcdefg
+        System.out.println(fis.available());//字节数9
+        System.out.println(fis.read());//97
+        //int available();返回流中剩余的估计字节数
+        System.out.println(fis.available());//8
+        fis.skip(2);
+        System.out.println(fis.read());//100
+            fis.close();
+    }
+}
