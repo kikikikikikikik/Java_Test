@@ -1,0 +1,22 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+
+/**
+ * @ClassName Test_MyClientTCP
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/12/7  22:20
+ * @Veresion 1.0
+ */
+public class Test_MyClientTCP {
+    public static void main(String[] args) throws IOException {
+        //1.创建客户端 必须指定服务器+端口 此时就在连接
+        Socket client=new Socket("127.0.0.1",8888);
+        //2.接收数据
+        BufferedReader br=new BufferedReader(new InputStreamReader(client.getInputStream()));
+        String echol=br.readLine();
+        System.out.println(echol);
+    }
+}
