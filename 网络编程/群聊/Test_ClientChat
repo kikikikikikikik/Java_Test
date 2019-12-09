@@ -1,0 +1,24 @@
+import java.io.*;
+import java.net.Socket;
+
+/**
+ * @ClassName Test_ClientChat
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/12/7  23:06
+ * @Veresion 1.0
+ */
+/*
+创建客户端：发送数据+接收数据
+写出数据：输出流
+读取数据：输入流
+输入数据与输出数据在同一个线程内，应该独立处理，彼此独立
+ */
+public class Test_ChatClient {
+    public static void main(String[] args) throws IOException {
+        Socket client=new Socket("localhost",9999);
+        //控制台输入流
+        new Thread(new Test_ChatSend(client)).start();
+        new Thread(new Test_ChatReceive(client)).start();
+    }
+}
