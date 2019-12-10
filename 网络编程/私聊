@@ -1,0 +1,125 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+
+/**
+ * @ClassName Test_SeverChat
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/12/7  23:05
+ * @Veresion 1.0
+ */
+/*public class Test_ChatSever {
+    public static void main(String[] args) throws IOException {
+        ServerSocket sever=new ServerSocket(9999);
+        Socket socket=sever.accept();
+        DataInputStream dis=new DataInputStream(socket.getInputStream());
+        DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
+        while(true){
+        String msg=dis.readUTF();
+        System.out.println(msg);
+        dos.writeUTF("服务器--->"+msg);
+        dos.flush();
+        }
+    }
+}*/
+//使用多线程
+public class Test_ChatSever {
+    private static List<MyChannel> all=new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+        ServerSocket server=new ServerSocket(9999);
+        while(true){
+            Socket client=server.accept();
+            MyChannel channel=new MyChannel(client);
+            all.add(channel);
+            new Thread(channel).start();
+        }
+    }
+    //一个客户端一条道路
+    private static class MyChannel implements Runnable{
+       private DataInputStream dis;
+       private DataOutputStream dos;
+       private boolean isRunning=true;
+       private String name;
+       public MyChannel(Socket client) throws IOException {
+           try {
+               dis=new DataInputStream(client.getInputStream());
+               dos=new DataOutputStream(client.getOutputStream());
+               this.name=dis.readUTF();
+               this.send("欢迎进入聊天室！");
+               sendOthers(this.name+"进入了聊天室",true);
+               System.out.println(this.name);
+           } catch (IOException e) {
+               Test_ChatCloseUtil.closeAll(dis,dos);
+               isRunning=false;
+               all.remove(this);
+           }
+       }
+       private String receive() throws IOException {
+           String msg="";
+           try {
+               msg=dis.readUTF();
+           } catch (IOException e) {
+               Test_ChatCloseUtil.closeAll(dis);
+               isRunning=false;
+               all.remove(this);
+           }
+           return msg;
+       }
+       private void send(String msg) throws IOException {
+           if(null==msg||msg.equals("")){
+               return;
+           }
+           try {
+               dos.writeUTF(msg);
+               dos.flush();
+           } catch (IOException e) {
+               Test_ChatCloseUtil.closeAll(dos);
+               isRunning=false;
+               all.remove(this);
+           }
+       }
+       //发送给其他客户端
+        private void sendOthers(String msg,boolean sys) throws IOException {
+           //是否为私聊
+            if(msg.startsWith("@")&&msg.indexOf(":")>-1){//私聊
+                //获取name
+                String name=msg.substring(1,msg.indexOf(":"));;
+                String content=msg.substring(msg.indexOf(":")+1);
+                for(MyChannel other :all){
+                    if(other.name.equals(name)){
+                        other.send(this.name+"对您悄悄说:"+content);
+                    }
+                }
+            }
+            else{
+           //遍历容器
+            for(MyChannel other:all){
+                if(other==this){
+                    continue;
+                }
+                if(sys){
+                    other.send("系统消息:"+msg);
+                }else {
+                other.send(this.name+"对所有人说："+msg);}
+            }
+        }
+       }
+        @Override
+        public void run() {
+           while(isRunning){
+               try {
+                   sendOthers(receive(),false);
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           }
+        }
+
+    }
+}
