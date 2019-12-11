@@ -1,0 +1,28 @@
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.Year;
+/**
+ * @ClassName CopyTest02
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/27  10:47
+ * @Veresion 1.0
+ */
+public class CopyTest02 {
+    //文件复制 只能复制纯文本文件
+    public static void main(String[] args) throws IOException {
+        FileReader fr=new FileReader("D:\\练习\\IOTest\\src\\CopyTest02.java");
+        FileWriter fw=new FileWriter("D:/练习/Temp04.txt");
+        char[] chars=new char[512];
+        int temp=0;
+        while((temp=fr.read(chars))!=-1){//读
+            //写
+            fw.write(chars,0,temp);
+        }
+        fw.flush();
+        fr.close();
+        fw.close();
+
+    }
+}
