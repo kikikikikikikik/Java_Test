@@ -1,0 +1,36 @@
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+
+/**
+ * @ClassName DataInputStreamTest01
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/11/27  16:42
+ * @Veresion 1.0
+ */
+public class DataInputStreamTest01 {
+    public static void main(String[] args) throws Exception {
+        //创建输入流
+        DataInputStream dis=new DataInputStream(new FileInputStream("D:/练习/temp05.txt"));
+        //读取 注意：要使用该流读取数据，必须先知道该文件中数据的存储格式，顺序
+        //读的顺序必须和写入的顺序一致
+        byte b=dis.readByte();
+        short s=dis.readShort();
+        int i=dis.readInt();
+        double d=dis.readDouble();
+        long l=dis.readLong();
+        float f=dis.readFloat();
+        boolean flag=dis.readBoolean();
+        char c=dis.readChar();
+        System.out.println(b);
+        System.out.println(s);
+        System.out.println(i);
+        System.out.println(d);
+        System.out.println(l);
+        System.out.println(f);
+        System.out.println(flag);
+        System.out.println(c);
+        //关闭
+        dis.close();
+    }
+}
