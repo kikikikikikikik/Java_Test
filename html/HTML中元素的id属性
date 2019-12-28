@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML中元素的id属性</title>
+</head>
+<body>
+<!--
+    1.在HTML文档中，任何元素（结点）都有id属性，id属性是该结点的唯一标识，所以在同一个HTML文档当中id值不能重复
+    2.表单提交数据的时候，只和name有关系，和id无关
+    3.id有什么用？
+        javascript语言可以对HTML文档当中的任意结点进行增删改操作，你什么操作之前需要先拿到这个结点，通常通过id拿结点对象
+        id的存在让我们获取元素（结点）更方便
+    4.HTML文档是一棵树，树上有很多节点，每个节点有唯一的id
+        javascript主要就是对这棵树DOM树上的结点进行增删改的
+        DOM（Document）树。
+-->
+<form id="myform">
+    <input type="text" id="username" name="username"/>
+    <input type="password" id="userpwd" name="userpwd"/>
+    <!--id就是结点的 身份证号码，不能重复-->
+</form>
+</body>
+</html>
