@@ -1,0 +1,45 @@
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
+/**
+ * @ClassName Task_01
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/12/28  10:01
+ * @Veresion 1.0
+ */
+public class Task_01 implements Runnable {
+    private Socket socket;
+    public Task_01(Socket socket) {
+        this.socket = socket;
+    }
+    @Override
+    public void run() {
+        try{
+            InputStream is=socket.getInputStream();
+            OutputStream os=socket.getOutputStream();
+            Request_01 request=Request_01.parse(is);
+            System.out.println(request);
+            Response_01 response=new Response_01();
+            HttpServlet_01 servlet;
+            if(request.path.equals("/joke.js")){
+                servlet=new JokeJSServlet_01();
+            }
+            else if(request.path.equals("/login")){
+                servlet=new LoginServlet_01();
+            }
+            else if(request.path.equals("/hello")) {
+                servlet=new HelloServlet();
+            }
+            else{
+                servlet=new NotFoundServlet();
+            }
+           servlet.doGet(request,response);
+           response.writeAndFlush(os);
+            socket.close();
+        }catch (Exception e){
+
+        }
+    }
+}
