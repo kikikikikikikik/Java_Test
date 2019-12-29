@@ -1,0 +1,19 @@
+/**
+ * @ClassName HttpServlet
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/12/29  9:50
+ * @Veresion 1.0
+ */
+public abstract class HttpServlet_01 {
+    public abstract void doGet(Request_01 request, Response_01 response) ;
+
+    /**
+     * @ClassName JokeJSServlet
+     * @Desc TODO
+     * @Auther 28893
+     * @Date 2019/12/29  9:50
+     * @Veresion 1.0
+     */
+
+}
