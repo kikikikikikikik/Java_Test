@@ -1,0 +1,66 @@
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+/**
+ * @ClassName Request_01
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/12/28  10:07
+ * @Veresion 1.0
+ */
+public class Request_01 {
+    String version;
+    String method;
+    String path;
+    Map<String,String>parameters=new HashMap<>();
+    Map<String,String> headers=new HashMap<>();
+    public static Request_01 parse(InputStream is) throws IOException {
+        Request_01 request=new Request_01();
+        Scanner scanner=new Scanner(is,"UTF-8");
+        String requestLine=scanner.nextLine();
+        String[] group=requestLine.split(" ");
+        request.method=group[0];
+        parsePath(group[1],request);
+        request.path=URLDecoder.decode(request.path,"UTF-8");
+        request.version=group[2];
+        String line;
+        while(!(line=scanner.nextLine()).isEmpty()){
+            String[] kv=line.split(":");
+            String k=kv[0].trim();
+            String v=kv[1].trim();
+            request.headers.put(k,v);
+        }
+        return request;
+    }
+
+    private static void parsePath(String s, Request_01 request) throws IOException {
+        String[] group=s.split("\\?");
+        request.path=group[0];
+        if(group.length!=1){
+            String[] kv=group[1].split("&");
+            for(String kvString:kv){
+                String[] kv2=kvString.split("=");
+                String key=  URLDecoder.decode(kv2[0],"UTF-8");
+                String value="";
+               if(kv2.length==2){
+                   value=URLDecoder.decode(kv2[1],"UTF-8");
+               }
+               request.parameters.put(key,value);
+            }
+        }
+    }
+    @Override
+    public String toString() {
+        return "Request_01{" +
+                "version='" + version + '\'' +
+                ", method='" + method + '\'' +
+                ", path='" + path + '\'' +
+                ", parameters=" + parameters +
+                ", headers=" + headers +
+                '}';
+    }
+}
