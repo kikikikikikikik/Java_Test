@@ -1,0 +1,20 @@
+/**
+ * @ClassName LoginServlet_01
+ * @Desc TODO
+ * @Auther 28893
+ * @Date 2019/12/29  11:51
+ * @Veresion 1.0
+ */
+public class LoginServlet_01 extends HttpServlet_01{
+    @Override
+    public void doGet(Request_01 request, Response_01 response) {
+        String username=request.parameters.get("username");
+        if(username==null){
+            response.setStatus("401 Unauthoried");
+            response.println("<h1>请登录</h1>");
+            return;
+        }
+        response.setHeader("Set-Cookie","username="+username+";expires=Tue, 07-Apr-2020 08:46:16 GMT; Max-Age=8640000");
+        response.print("<h1>欢迎 "+username+" 光临</h1>");
+    }
+}
