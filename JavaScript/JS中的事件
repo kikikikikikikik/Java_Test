@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JS中的事件</title>
+</head>
+<body>
+<script type="text/javascript">
+    /*
+    JS中的事件：
+        1）blur失去焦点
+        2）change下拉列表选中项改变
+        3）click鼠标点击
+        4）dbclick鼠标双击
+        5）focus获得焦点
+        6）keydown键盘按下
+        7）keyup键盘弹起
+        8）load页面加载完毕
+        9）mousedown鼠标按下
+        10）mouseover鼠标经过
+        11）mousemove鼠标移动
+        12）mouseout鼠标离开
+        13）mouseup鼠标弹起
+        14）reset表单重置
+        15）select文件被选定
+        16）submit表单提交
+     任何一个事件都具有一个事件句柄，事件句柄是在事件前添加on
+     onxxx这个事件句柄出现在一个标签的属性位置上（事件句柄以属性的形式存在）
+     */
+    //对于当前程序来说，sayHello函数被称为回调函数（callback函数）
+    //回调函数的特点：自己把这个代码写出来，但是自己不调用，其他函数调用该函数
+    function sayHello() {
+        alert("hello js")
+    }
+</script>
+<!--注册事件的第一种方式，直接在标签中使用事件句柄-->
+<!--以下代码的含义是，将sayHello函数注册在按钮上，等待click事件发生后，该函数被浏览器调用，称这个函数为回调函数-->
+<input type="button" value="hello" onclick="sayHello()"/>
+<input type="button"value="hello2"id="mybtn"/>
+<input type="button"value="hello3"id="mybtn1">
+<input type="button"value="hello4"id="mybtn2">
+<script type="text/javascript">
+    function doSunm() {
+        alert("do sum")
+    }
+    /*
+    第二种注册事件的方式，是使用纯JS代码完成事件的注册
+     */
+    //第一步：获取按钮对象(document全部小写，内置对象，可以直接用，document就代表整个HTML页面)
+    var btnObj=document.getElementById("mybtn")
+    //第二步：给按钮对象的onclick属性赋值
+    btnObj.onclick=doSunm;//注意：不能加小括号
+    var mybtn1=document.getElementById("mybtn1");
+    mybtn1.onclick=function () {
+        alert("test……")//这个函数在页面打开的时候只是注册了，在点击了按钮之后才会执行
+    }
+    document.getElementById("mybtn2").onclick=function () {
+        alert("test2……")
+    }
+</script>
+</body>
+</html>
