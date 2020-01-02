@@ -13,6 +13,7 @@
         javascript:void(0)
         其中javascript：作用是告诉浏览器后面是一段JS代码。
         以下程序的javascript:是不能省略的。
+        
      void()这个小括号中必须有表达式
 -->
 <a href="javascripe:void(0)"onclick="window.alert('test code')">
