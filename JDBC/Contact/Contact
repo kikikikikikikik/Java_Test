@@ -1,0 +1,20 @@
+public class Contact {
+    String email;
+    String name;
+    String addr;
+    int tel;
+    int postcode;
+    int id;
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", addr='" + addr + '\'' +
+                ", tel=" + tel +
+                ", postcode=" + postcode +
+                ", id=" + id +
+                '}';
+    }
+}
