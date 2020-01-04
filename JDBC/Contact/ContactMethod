@@ -1,0 +1,10 @@
+import java.util.List;
+
+public interface ContactMethod {
+      void addContact(Contact contact);
+      boolean checkContact(String name);
+      void deleteContact(String name);
+      List<Contact> findAll();
+      Contact findById(int id);
+      void updateContact(Contact contact);
+}
