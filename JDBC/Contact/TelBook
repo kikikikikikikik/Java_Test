@@ -1,0 +1,111 @@
+import java.util.List;
+import java.util.Scanner;
+
+public class TelBook {
+    static Scanner sc=new Scanner(System.in);
+    public static void main(String[] args) {
+        System.out.println("电话本管理系统");
+        while(true){
+            System.out.println("1.添加\t2.删除\t3.修改\t4.查询\t5.查询所有\t0.退出");
+            System.out.println("选择业务：");
+            int n=sc.nextInt();
+            sc.nextLine();
+            switch (n) {
+                case 1:       //1.添加
+                    System.out.println("请输入要添加的姓名：");
+                    String name=sc.nextLine();
+                    System.out.println("请输入要添加的地址：");
+                    String address=sc.nextLine();
+                    System.out.println("请输入要添加的手机号：");
+                    String phone=sc.nextLine();
+                    System.out.println("请输入要添加的邮政编码：");
+                    String postcode=sc.nextLine();
+                    TelePhoneBook t=new TelePhoneBook();
+                    t.setName(name);
+                    t.setAddress(address);
+                    t.setTelephone(phone);
+                    t.setPostcode(postcode);
+                    int row=TelManager.add(t);
+                    if(row>0){
+                        System.out.println("添加成功");
+                    }else{
+                        System.out.println("添加失败");
+                    }
+                    break;
+                case 2://删除
+                    System.out.println("删除要删除的姓名：");
+                    String name1=sc.nextLine();
+                    TelePhoneBook t1=TelManager.selectByName(name1);// 判断id所对应的电话记录是否存在
+                    if(t1!=null){
+                        System.out.println("确定要删除么？（确定选1，取消选0）");
+                        int select=sc.nextInt();
+                        if(select==1){
+                            int row1=TelManager.delete(name1);
+                            if(row1>0){
+                                System.out.println("删除成功");
+                            }
+                            else{
+                                System.out.println("删除失败");
+                            }
+                        }else{
+                            break;
+                        }
+                    }else{
+                        System.out.println("不存在");
+                    }
+                    break;
+                case 3://修改
+                    System.out.println("请输入要修改人的姓名：");
+                    String name2=sc.nextLine();
+                    TelePhoneBook tb=TelManager.selectByName(name2);// 判断id所对应的电话记录是否存在
+                    System.out.println(tb);
+                    if(tb!=null){
+                        System.out.println("输入要更新人的姓名：");
+                        String newName=sc.next();
+                        System.out.println("输入要更新人的地址：");
+                        String newAddress=sc.next();
+                        System.out.println("输入要更新人的电话：");
+                        String newPhone=sc.next();
+                        System.out.println("输入要更新人的邮政编码：");
+                        String newpostcode=sc.next();
+                        tb.setName(newName);
+                        tb.setTelephone(newPhone);
+                        tb.setPostcode(newpostcode);
+                        tb.setAddress(newAddress);
+                        int rows=TelManager.update(tb);
+                        if(rows>0){
+                            System.out.println("更新成功");
+                            System.out.println(tb);
+                        }else{
+                            System.out.println("更新失败");
+                        }
+                    }
+                    else{
+                        System.out.println("不存在");
+                    }
+                    break;
+                case 4://4.查询
+                    System.out.println("请输入要查询的姓名：");
+                    String name3=sc.nextLine();
+                    TelePhoneBook tb1=TelManager.selectByName(name3);
+                    if(tb1!=null){
+                        System.out.println(tb1);
+                        System.out.println("查询成功");
+                    }else{
+                        System.out.println("查询失败");
+                    }
+                    break;
+                case 5://查询全部
+                    List<TelePhoneBook> list=TelManager.selectAll();
+                    for(TelePhoneBook s:list){
+                        System.out.println(s);
+                    }
+                    break;
+                case 0:
+                    System.out.println("退出程序");
+                    System.exit(0);
+            }
+        }
+    }
+}
+
