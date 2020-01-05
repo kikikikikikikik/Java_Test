@@ -1,0 +1,185 @@
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TelManager {
+    //获取Connection的方法
+    public static Connection getConnection(){
+        String driver="com.mysql.jdbc.Driver";//mysql的Driver
+        String url="jdbc:mysql://localhost:3306/contact";//数据库的位置
+        String user="root";
+        String password="1002";
+        Connection conn=null;//获取Connection
+        try {
+            Class.forName(driver);//加载驱动
+            conn=DriverManager.getConnection(url,user,password);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;//返回连接
+    }
+    //向数据库中插入信息，参数为电话本对象
+    public static int add(TelePhoneBook tel ){
+        int row=0;
+        String sql="insert into contact(name,addr,tel,postcode) values (?,?,?,?)"; //SQl的添加语句  ?为占位符 数据库中id是自增的
+        Connection conn=null;// 获取连接
+        PreparedStatement ps=null;//// 创建PreparedStatement对象
+        try {
+            conn = getConnection();
+            ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setString(1,tel.getName());//给sql语句中的占位符？赋值
+            ps.setString(2,tel.getAddress());
+            ps.setString(3,tel.getTelephone());
+            ps.setString(4,tel.getPostcode());
+            row=ps.executeUpdate();// 执行sql语句
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            closePrepareStatement(ps);//关闭方法，见下面
+            closeConnection(conn);
+        }
+        return row;
+    }
+    public static TelePhoneBook selectByName(String name){
+        String sql="select *from contact where name=?";//查询sql语句
+        ResultSet rs=null;//结果集对象，
+        Connection conn=null;
+        PreparedStatement ps=null;
+        TelePhoneBook t=null;//电话本对象用于接收查询的对象，返回
+        try {
+            conn=getConnection();
+            ps=(PreparedStatement) conn.prepareStatement(sql);
+            ps.setString(1, name);
+            rs=ps.executeQuery();//执行查询，返回的类型为ResultSet，如果数据库中有数据，rs.next()返回true
+            while(rs.next()){
+                t=new TelePhoneBook();
+                t.setName(rs.getString(1));
+                t.setAddress(rs.getString(2));
+                t.setTelephone(rs.getString(3));
+                t.setPostcode(rs.getString(4));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally{
+            closeResultSet(rs);//关闭方法，见最下面
+            closePrepareStatement(ps);
+            closeConnection(conn);
+        }
+        return t;
+    }
+    //根据ID删除
+    public static int delete(String name){
+        String sql="delete from contact where name=?";//删除sql语句
+        Connection conn=null;
+        int row=0;
+        PreparedStatement ps=null;
+        try {
+            conn=getConnection();
+            ps=(PreparedStatement) conn.prepareStatement(sql);
+            ps.setString(1,name);
+            row=ps.executeUpdate();//执行sql语句，返回值为操作的行数
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally{
+            closePrepareStatement(ps);
+            closeConnection(conn);
+
+        }
+        return row;
+    }
+    //修改数据，所以传入的参数应该是电话本对象
+    public static int update(TelePhoneBook tel){
+        int row=0;
+        String sql="update contact set name=?,address=?,telephone=?,postcode=? where name=?";
+        Connection conn=null;
+        PreparedStatement ps=null;
+        try {
+            conn = getConnection();
+            ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setString(1,tel.getName());
+            ps.setString(2, tel.getAddress());
+            ps.setString(3,tel.getTelephone());
+            ps.setString(4, tel.getPostcode());
+
+            row=ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally{
+            closePrepareStatement(ps);
+            closeConnection(conn);
+        }
+        return row;
+    }
+    public static List<TelePhoneBook> selectAll(){
+        List<TelePhoneBook> list=new ArrayList<TelePhoneBook>();//建一个arraylist数组
+        String sql="select *from contact";
+        Connection conn=null;
+        PreparedStatement ps=null;
+        ResultSet rs=null;
+        try {
+            conn = getConnection();
+            ps = (PreparedStatement) conn.prepareStatement(sql);
+            rs = ps.executeQuery();//执行查询
+            while(rs.next()){
+                TelePhoneBook tel=new TelePhoneBook();
+                //存在一条数据就新建一个电话本对象，得到相应属性
+                tel.setName(rs.getString(1));
+                tel.setAddress(rs.getString(2));
+                tel.setTelephone(rs.getString(3));
+                tel.setPostcode(rs.getString(4));
+
+                list.add(tel);//添加一条数据
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally{
+            closeResultSet(rs);
+            closePrepareStatement(ps);
+            closeConnection(conn);
+
+        }
+        return list;
+    }
+    //关闭Connection
+    public static void closeConnection(Connection conn){
+        if(conn!=null){
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+    //关闭Statement
+    public static void closePrepareStatement(PreparedStatement ps){
+        if(ps!=null){
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+    }
+    //关闭ResultSet
+    public static void closeResultSet(ResultSet rs){
+        if(rs!=null){
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+}
