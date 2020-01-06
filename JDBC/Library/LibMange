@@ -1,0 +1,148 @@
+import java.sql.*;
+public class LibMange {
+    public static Connection getConnection(){
+        String driver="com.mysql.jdbc.Driver";
+        String url="jdbc:mysql://localhost:3306/library?useUnicode=true&amp;characterEncoding=utf8";
+        String user="root";
+        String password="1002";
+        Connection connection=null;
+        try{
+            Class.forName(driver);
+            connection=DriverManager.getConnection(url,user,password);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return connection;
+    }
+    public static int add(Book book)throws Exception{
+        int row=0;
+        String sql="insert into library(name,bno,author,publish,type,storeplace,storearea,state)values(?,?,?,?,?,?,?,?)";
+        Connection connection=null;
+        PreparedStatement ps=null;
+        try{
+            connection=getConnection();
+            ps=connection.prepareStatement(sql);
+            ps.setString(1, book.getName());
+            ps.setString(2, book.getBno());
+            ps.setString(3, book.getAuthor());
+            ps.setString(4, book.getPublish());
+            ps.setString(5, book.getType());
+            ps.setString(6, book.getStoreplace());
+            ps.setString(7, book.getStorearea());
+            ps.setBoolean(8, book.getState());
+            row=ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            ps.close();
+            connection.close();
+        }
+        return row;
+    }
+    public static int update(Book book)throws Exception{
+        int row=0;
+        String sql="update library set name=?,author=?,publish=?,type=?,storeplace=?,storearea=?,state=?";
+        Connection connection=null;
+        PreparedStatement ps=null;
+        try{
+            connection=getConnection();
+            ps=connection.prepareStatement(sql);
+            ps.setString(1, book.getName());
+            ps.setString(2, book.getAuthor());
+            ps.setString(3, book.getPublish());
+            ps.setString(4, book.getType());
+            ps.setString(5, book.getStoreplace());
+            ps.setString(6, book.getStorearea());
+            ps.setBoolean(7, book.getState());
+            row=ps.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            ps.close();
+            connection.close();
+        }
+        return row;
+    }
+    public static Book selectByName(String name) throws SQLException {
+        String sql="select *from library where name=?";
+        ResultSet rs=null;
+        Connection connection=null;
+        PreparedStatement ps=null;
+        Book t=null;
+        connection=getConnection();
+        try{
+            ps=connection.prepareStatement(sql);
+            ps.setString(1,name);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                t=new Book();
+                t.setName(rs.getString(1));
+                t.setBno(rs.getString(2));
+                t.setAuthor(rs.getString(3));
+                t.setPublish(rs.getString(4));
+                t.setType(rs.getString(5));
+                t.setStoreplace(rs.getString(6));
+                t.setStorearea(rs.getString(7));
+                t.setState(rs.getBoolean(8));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            rs.close();
+            ps.close();
+            connection.close();
+        }
+        return t;
+    }
+    public static Book selectById(String bno) throws SQLException {
+        String sql="select *from library where bno=?";
+        ResultSet rs=null;
+        Connection connection=null;
+        PreparedStatement ps=null;
+        Book t=null;
+        connection=getConnection();
+        try {
+            ps=connection.prepareStatement(sql);
+            ps.setString(1,bno);
+            rs=ps.executeQuery();
+            while(rs.next()){
+               t=new Book();
+               t.setName(rs.getString(1));
+               t.setBno(rs.getString(2));
+               t.setAuthor(rs.getString(3));
+               t.setPublish(rs.getString(4));
+               t.setType(rs.getString(5));
+               t.setStoreplace(rs.getString(6));
+               t.setStorearea(rs.getString(7));
+               t.setState(rs.getBoolean(8));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            rs.close();
+            ps.close();
+            connection.close();
+        }
+        return t;
+    }
+   /* public static int delete(Date date) throws SQLException {
+        java.sql.Date date1= (java.sql.Date) date;
+        String sql="delete from library where date>?";
+        Connection connection=null;
+        int row1=0;
+        PreparedStatement ps=null;
+        try{
+            connection=getConnection();
+            ps=connection.prepareStatement(sql);
+            ps.setDate(1,date1);
+            row1=ps.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            ps.close();
+            connection.close();
+        }
+        return row1;
+    }*/
+}
