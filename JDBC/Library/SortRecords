@@ -1,0 +1,45 @@
+package function;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class SortRecords implements Operation {
+    @Override
+    //对借阅 和 归还 记录排序打印
+    public void operate(Connection connection,Scanner in){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM records ORDER BY id DESC";
+        try{
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Record r = new Record();
+                r.setId(rs.getString(1));
+                r.setBookName(rs.getString(2));
+                r.setBookBno(rs.getString(3));
+                r.setDate(rs.getDate(4));
+                r.setStatus(rs.getString(5));
+                System.out.println(String.format(r.toString()));
+            }
+            System.out.println("记录排序打印成功！");
+        }catch(Exception e){
+            System.out.println("记录排序打印失败！");
+        }finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+}
