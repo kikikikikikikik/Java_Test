@@ -1,0 +1,59 @@
+package function;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class SelectByName implements Operation {
+    @Override
+    //根据书名查找
+    public void operate(Connection connection,Scanner in) {
+        System.out.println("请输入要查找的书名：");
+        String name = in.next();
+        String sql = "select * from library where name=?";
+        ResultSet rs = null;//查询结果集
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(sql); //创建一个PrepareStatement类型的对象，将参数化的sql化的语句发送到数据库
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+            rs.last();  //指向最后一行，得到其行号，即为行数
+            int c = rs.getRow();  //返回行号
+            if(c == 0){
+                System.out.println("查询结果为空！");
+            }else{
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Book t = new Book();
+                    t.setName(rs.getString(1));
+                    t.setBno(rs.getString(2));
+                    t.setAuthor(rs.getString(3));
+                    t.setPublish(rs.getString(4));
+                    t.setType(rs.getString(5));
+                    t.setStoreplace(rs.getString(6));
+                    t.setStorearea(rs.getString(7));
+                    t.setState(rs.getBoolean(8));
+                    t.setDate(rs.getDate(9));
+                    System.out.println(String.format(t.toString()));
+                }
+                System.out.println("查找成功！");
+            }
+        }catch (SQLException e) {
+            System.out.println("查找失败！");
+        }finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+}
