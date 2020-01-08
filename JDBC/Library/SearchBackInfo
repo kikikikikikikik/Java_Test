@@ -1,0 +1,57 @@
+package function;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Scanner;
+
+public class SearchBackInfo implements Operation {
+    @Override
+    //根据学号或工号查询归还记录
+    public void operate(Connection connection,Scanner in){
+        System.out.println("请输入ID:");
+        String ID = in.next();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT id,bookName,bookBno,date,status FROM records WHERE id=? AND id IN (SELECT id FROM t_s)AND status=?";
+        try{
+            ps = connection.prepareStatement(sql);
+            ps.setString(1,ID);
+            ps.setString(2,"backed");
+            rs = ps.executeQuery();
+            rs.last();  //指向最后一行，得到其行号，即为行数
+            int c = rs.getRow();  //返回行号
+            if(c == 0){
+                System.out.println("查询归还记录为空！");
+            }else{
+                rs = ps.executeQuery();
+                while (rs.next()){
+                    String id = rs.getString(1);
+                    String bname = rs.getString(2);
+                    String bno = rs.getString(3);
+                    Date date = rs.getDate(4);
+                    String status = rs.getString(5);
+                    Record record = new Record(id,bname,bno,date,status);
+                    System.out.println(String.format(record.toString()));
+                }
+                System.out.println("查询归还记录成功！");
+            }
+        }catch(Exception e){
+            System.out.println("查询归还记录失败！");
+        }finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+}
