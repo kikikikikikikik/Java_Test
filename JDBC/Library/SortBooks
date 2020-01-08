@@ -1,0 +1,49 @@
+package function;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class SortBooks implements Operation {
+    @Override
+    //对图书进行排序打印
+    public void operate(Connection connection,Scanner in){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM library ORDER BY bno DESC";
+        try{
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Book b = new Book();
+                b.setName(rs.getString(1));
+                b.setBno(rs.getString(2));
+                b.setAuthor(rs.getString(3));
+                b.setPublish(rs.getString(4));
+                b.setType(rs.getString(5));
+                b.setStoreplace(rs.getString(6));
+                b.setStorearea(rs.getString(7));
+                b.setState(rs.getBoolean(8));
+                b.setDate(rs.getDate(9));
+                System.out.println(String.format(b.toString()));
+            }
+            System.out.println("图书排序打印成功！");
+        }catch(Exception e){
+            System.out.println("图书排序打印失败！");
+        }finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+}
