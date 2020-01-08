@@ -1,0 +1,111 @@
+package function;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Scanner;
+
+public class Update implements Operation {
+    @Override
+    //更新图书
+    public void operate(Connection connection, Scanner in) throws Exception {
+        System.out.println("请输入要修改书的编号：");
+        String bno = in.nextLine();
+        Book book = selectById(connection, bno);
+        if (book != null) {
+            System.out.println(book.toString());
+            System.out.println("请输入要修改的书名：");
+            String name = in.next();
+            System.out.println("请输入要修改的作者：");
+            String author = in.next();
+            System.out.println("请输入要修改的出版社：");
+            String publish = in.next();
+            System.out.println("请输入要修改的图书类型：");
+            String type = in.next();
+            System.out.println("请输入要修改的存放位置：");
+            String storeplace = in.next();
+            System.out.println("请输入要修改的同名书的存放位置：");
+            String storearea = in.next();
+            book.setName(name);
+            book.setStorearea(storearea);
+            book.setType(type);
+            book.setPublish(publish);
+            book.setAuthor(author);
+            book.setStoreplace(storeplace);
+            String sql = "update library set name=?,author=?,publish=?,type=?,storeplace=?,storearea=?,state=? where bno=?";
+            PreparedStatement ps = null;
+            try {
+                ps = connection.prepareStatement(sql);
+                ps.setString(1, book.getName());
+                ps.setString(2, book.getAuthor());
+                ps.setString(3, book.getPublish());
+                ps.setString(4, book.getType());
+                ps.setString(5, book.getStoreplace());
+                ps.setString(6, book.getStorearea());
+                ps.setBoolean(7, book.getState());
+                ps.setString(8,book.getBno());
+                ps.executeUpdate();
+                ps.close();
+                System.out.println("更新成功！");
+            } catch (Exception e) {
+                System.out.println("更新失败！");
+            } finally {
+                System.out.println("Please go on!");
+            }
+        }
+        else{
+            System.out.println("抱歉！换本书试试吧！");
+        }
+    }
+
+    //根据编号查找
+    public static Book selectById(Connection connection, String bno){
+        String sql = "select * from library where bno=?";
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        Book b = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, bno);
+            rs = ps.executeQuery();
+            rs.last();  //指向最后一行，得到其行号，即为行数
+            int c = rs.getRow();  //返回行号
+            if(c == 0){
+                System.out.println("查询结果为空！");
+            }else{
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    String name = rs.getString(1);
+                    String bsno = rs.getString(2);
+                    String author = rs.getString(3);
+                    String publish = rs.getString(4);
+                    String type = rs.getString(5);
+                    String storeplace = rs.getString(6);
+                    String storearea = rs.getString(7);
+                    //Boolean state = rs.getBoolean(8);
+                    Date date = rs.getDate(9);
+                    b = new Book(name, bsno, author, publish, type, storeplace, storearea, date);
+                    //System.out.println(String.format(book.toString()));
+                }
+                System.out.println("查找成功！");
+            }
+        } catch (SQLException e) {
+            System.out.println("查找失败！");
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+        return b;
+    }
+}
