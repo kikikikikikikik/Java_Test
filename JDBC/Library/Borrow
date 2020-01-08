@@ -1,0 +1,130 @@
+package function;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class Borrow implements Operation {
+    @Override
+    //借阅图书
+    public void operate(Connection connection,Scanner in){
+        System.out.println("请输入借阅者ID号：");
+        String id = in.next();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql1 = "SELECT * FROM t_s WHERE id=?";
+        try{
+            ps = connection.prepareStatement(sql1);
+            ps.setString(1,id);
+            rs = ps.executeQuery();
+            rs.last();
+            if(rs.getRow() == 0){
+                System.out.println("查无此人！");
+            }else {
+                System.out.println("请输入要借阅的书的数目：");
+                int count = in.nextInt();
+                try{
+                    while(count > 0) {
+                        System.out.println("请输入要借阅的书名：");
+                        String bname = in.next();
+                        String sql = "SELECT bno FROM library WHERE name=? AND state=? LIMIT 1";
+                        ps = connection.prepareStatement(sql);
+                        ps.setString(1, bname);
+                        ps.setBoolean(2, false);
+                        rs = ps.executeQuery();
+                        while (rs.next()) {
+                            String bno = rs.getString(1);
+                            updateBorrowState(connection, bno);   //更新已借图书借阅状态
+                            Date date = new Date();
+                            insertBorrowRecord(connection, id, bname, bno, date);   //添加借阅记录
+                        }
+                        count--;
+                    }
+                    System.out.println("借阅成功！");
+                }catch(Exception e){
+                    System.out.println("借阅失败！");
+                }finally{
+                    try {
+                        rs.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Please go on!");
+                }
+            }
+        }catch (Exception e){
+        }finally{
+            try {
+                if(rs != null){
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if(ps != null){
+                    ps.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+    //借阅图书时更新借阅状态
+    private static void updateBorrowState(Connection connection,String bno){
+        PreparedStatement ps = null;
+        String sql = "UPDATE library SET state=? WHERE bno=?";
+        try{
+            ps = connection.prepareStatement(sql);
+            ps.setBoolean(1,true);
+            ps.setString(2,bno);
+            ps.executeUpdate();
+            System.out.println("更新状态成功！");
+        }catch(Exception e){
+            System.out.println("更新状态失败！");
+        }finally{
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+    //添加借阅记录
+    private static void insertBorrowRecord(Connection connection,String id,String bname,String bno,Date date){
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO records VALUES(?,?,?,?,?)";
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            ps = connection.prepareStatement(sql);
+            ps.setString(1,id);
+            ps.setString(2,bname);
+            ps.setString(3,bno);
+            ps.setString(4,format.format(date));
+            ps.setString(5,"borrowed");
+            ps.executeUpdate();
+            System.out.println("添加借阅记录成功！");
+        }catch(Exception e){
+            System.out.println("添加借阅记录失败！");
+        }finally {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+}
