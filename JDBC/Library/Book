@@ -1,0 +1,96 @@
+package function;
+
+import java.util.Date;
+
+public class Book {
+    private String name;//书名
+    private String bno;//书的编号
+    private String author;//作者
+    private String publish;//出版社
+    private String type;//类型
+    private String storeplace;//存储地方;
+    private String storearea;//同名书存储区
+    private boolean state = false;//借阅状态（false 未借出 / true 借出）
+    private Date date;//有效使用期限
+
+    public Book(){}
+    public Book(String name,String bno,String author,String publish,String type,String storeplace,String storearea,Date date){
+        this.name = name;
+        this.bno = bno;
+        this.author = author;
+        this.publish = publish;
+        this.type = type;
+        this.storeplace = storeplace;
+        this.storearea = storearea;
+        this.date = date;
+    }
+    @Override
+    public String toString() {
+        return "Book{ " +
+                "name = '" + name + '\'' +
+                ", bno = '" + bno + '\'' +
+                ", author = '" + author + '\'' +
+                ", publish = '" + publish + '\'' +
+                ", type = '" + type + '\'' +
+                ", storeplace = '" + storeplace + '\'' +
+                ", storearea = '" + storearea + '\'' +
+                ", state = " + state +
+                ", date = " + date +
+                '}';
+    }
+
+    public void setName(String name){
+        this.name=name;
+    }
+    public String getName(){
+        return name;
+    }
+    public void setBno(String bno){
+        this.bno=bno;
+    }
+    public String getBno(){
+        return bno;
+    }
+    public void setAuthor(String author){
+        this.author=author;
+    }
+    public String getAuthor(){
+        return author;
+    }
+    public void setPublish(String publish){
+        this.publish=publish;
+    }
+    public String getPublish(){
+        return publish;
+    }
+    public void setType(String type){
+        this.type=type;
+    }
+    public String getType(){
+        return type;
+    }
+    public void setStoreplace(String storeplace){
+        this.storeplace=storeplace;
+    }
+    public String getStoreplace(){
+        return storeplace;
+    }
+    public void setStorearea(String storearea){
+        this.storearea=storearea;
+    }
+    public String getStorearea(){
+        return storearea;
+    }
+    public void setState(boolean state){
+        this.state=state;
+    }
+    public boolean getState(){
+        return state;
+    }
+    public void setDate(Date date){
+        this.date = date;
+    }
+    public Date getDate(){
+        return date;
+    }
+}
