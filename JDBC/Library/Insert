@@ -1,0 +1,61 @@
+package function;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
+
+public class Insert implements Operation {
+    @Override
+    //添加新书
+    public void operate(Connection connection, Scanner in)  {
+        System.out.println("请输入要添加的书名：");
+        String name = in.next();
+        System.out.println("请输入要添加的编号：");
+        String bno = in.next();
+        System.out.println("请输入要添加的作者：");
+        String author = in.next();
+        System.out.println("请输入要添加的出版社：");
+        String publish = in.next();
+        System.out.println("请输入要添加的图书类型：");
+        String type = in.next();
+        System.out.println("请输入要添加的存放位置：：");
+        String storeplace = in.next();
+        System.out.println("请输入要添加的同名书的存放位置：");
+        String storearea = in.next();
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Book book = new Book(name, bno, author, publish, type, storeplace, storearea,date);
+        // ？是占位符
+        String sql = "insert into library(name,bno,author,publish,type,storeplace,storearea,state,date )values(?,?,?,?,?,?,?,?,?)";
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, book.getName());  //获取属性值并添加
+            ps.setString(2, book.getBno());
+            ps.setString(3, book.getAuthor());
+            ps.setString(4, book.getPublish());
+            ps.setString(5, book.getType());
+            ps.setString(6, book.getStoreplace());
+            ps.setString(7, book.getStorearea());
+            ps.setBoolean(8, book.getState());
+            Calendar calendar = Calendar.getInstance();//获得当前日历时间
+            calendar.add(Calendar.DATE, 360);//将当前日历时间增加一年
+            ps.setString(9, format.format(calendar.getTime()));
+            ps.executeUpdate();
+            System.out.println("添加成功！");
+        } catch (Exception e) {
+            System.out.println("添加失败！");
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Please go on!");
+        }
+    }
+}
