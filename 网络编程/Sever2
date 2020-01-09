@@ -21,7 +21,7 @@ public class Sever2 {
                 int clientPort = clientSocket.getPort();
                 //System.out.printf("有客户端连接上来 %s:%d%n",
                 //clientAddress.getHostAddress(), clientPort);
-                // 获取 字节流
+                // 获取字节流
                 InputStream is = clientSocket.getInputStream();
                 // 字节流转换为字符流
                 InputStreamReader isReader = new InputStreamReader(is, "UTF-8");
@@ -31,7 +31,6 @@ public class Sever2 {
                 // 获取输出字节流
                 OutputStream os = clientSocket.getOutputStream();
                 PrintStream out = new PrintStream(os, true, "UTF-8");
-
                 String line;
                 while ((line = reader.readLine()) != null) {
                     System.out.println("好友说: " + line);
