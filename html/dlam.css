@@ -100,81 +100,42 @@ body {
     background-size: 75px 2px;
 
     background-position: 20% 35%; */
-
- 
-
 }
-
 #dlam .face{
-
     width: 220px;
-
     height: 190px;
-
     border: 2px solid #000;
-
     border-top-left-radius: 50% 60%;
-
     border-top-right-radius: 50% 60%;
-
     border-bottom-left-radius: 30% 50%;
-
     border-bottom-right-radius: 30% 50%;
-
     position: absolute;
-
     top: 40px;
-
     left: 0;
-
     right: 0;
-
     margin: 0 auto;
-
     background-color: #fff;
-
 }
-
 #dlam .eyes{
-
     width: 100px;
-
     height: 60px;
-
     position: absolute;
-
     top: 10px;
-
     left: 0;
-
     right: 0;
-
     margin: 0 auto;
-
 }
-
 #dlam .left-eye, #dlam .right-eye{
-
     width: 50%;
-
     height: 100%;
-
     border: 2px solid #000;
-
     float: left;
-
     border-radius: 100%;
-
     position: relative;
-
     background-color: #fff;
-
 }
-
 #dlam .left-eye{}
-
 #dlam .left-eye:before{
-
     content: "";
 
     width: 15px;
