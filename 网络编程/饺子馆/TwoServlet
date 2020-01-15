@@ -1,0 +1,32 @@
+package com.controller;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(name = "TwoServlet")
+public class TwoServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1.读取当前来访的浏览器推送回来的Cookie
+        Cookie[] array = request.getCookies();
+        //2.根据得到Cookie，来招待当前用户
+        for(Cookie cookie:array){
+            String keyName = cookie.getName();//读取Cookie中关键字名称
+            String value = cookie.getValue();//读取Cookie中共享数据
+            if("key1".equals(keyName)){
+                System.out.println(value+"客人欢迎");
+            }
+            if("key2".equals(keyName)){
+                System.out.println("我们早就将"+value+"准备好了");
+            }
+        }
+    }
+}
