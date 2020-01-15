@@ -1,0 +1,28 @@
+package com.controller;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet(name = "OneServlet")
+public class OneServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //1.读取当前用户的基本信息
+        String name = request.getParameter("userName");
+        String jiaozi = request.getParameter("jiaozi");
+        //2.将当前用户的私人数据保存到cookie
+        Cookie c1 = new Cookie("key1",name);
+        Cookie c2 = new Cookie("key2",jiaozi);
+        //3.将Cookie对象写入到【响应包】中的【响应头】
+        response.addCookie(c1);
+        response.addCookie(c2);
+    }
+}
