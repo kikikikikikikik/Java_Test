@@ -16,7 +16,7 @@ import java.util.concurrent.BlockingQueue;
  */
 /*public class Test_ChatSever {
     public static void main(String[] args) throws IOException {
-        ServerSocket sever=new ServerSocket(9999);
+        ServerSocket sever=new ServerSocket(9999);//设置端口号为9999
         Socket socket=sever.accept();
         DataInputStream dis=new DataInputStream(socket.getInputStream());
         DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
