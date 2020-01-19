@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>show&hide</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <style type="text/css">
+        div{
+            width: 200px;
+            height: 200px;
+            background: green;
+            font-size: 30px;
+            color: red;
+        }
+    </style>
+    <script>
+        function fun1() {
+            $("div").hide(3000);
+        }
+        function fun2() {
+            $("div").show(3000);
+        }
+    </script>
+</head>
+<body>
+<div>
+    我是一个DIV
+</div>
+<input type="button" value="隐藏DIV" onclick="fun1()"/>
+<input type="button" value="显示DIV" onclick="fun2()"/>
+</body>
+</html>
