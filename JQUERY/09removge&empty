@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>removge&empty</title>
+    <style type="text/css"></style>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <script>
+        function fun1() {
+            $("#one").remove();
+        }
+        function fun2() {
+            $("#two").empty();
+        }
+    </script>
+</head>
+<body>
+大臣1：<select id="one">
+    <option value="">大儿子</option>
+    <option value="">二儿子</option>
+</select>
+大臣2：<select id="two">
+    <option value="">大儿子</option>
+    <option value="">二儿子</option>
+</select><br>
+<input type="button" value="大臣1满门抄斩" onclick="fun1()">
+<input type="button" value="大臣2断子绝孙"onclick="fun2()">
+</body>
+</html>
