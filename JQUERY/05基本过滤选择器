@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本过滤选择器</title>
+    <script type="text/javascript"src="jquery-3.4.1.js"></script>
+    <script>
+        function fun1() {
+            $("div:first").css("background-color","yellow")
+        }
+        function fun7() {
+            $("div:eq(3)").css("background-color","green")
+        }
+        function fun8() {
+            $("div:lt(3)").css("background-color","red")
+        }
+        function fun9() {
+            $("div:gt(3)").css("background-color","pink")
+        }
+    </script>
+    <style type="text/css">
+        div{
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+<!--定义被选择对象-->
+<h2>以下是div</h2>
+<div id="one">我的序号是0</div>
+<div id="two" class="c02">我的序号是1</div>
+<div>
+    我的序号是2
+    <div class="son">我的序号是3</div>
+    <div class="son">我的序号是4</div>
+</div>
+<div>我的序号是5</div>
+<h3>以下是span</h3>
+<span>我是span标签</span>
+<br><br>
+<!--定义按钮-->
+<input type="button" id="btn01" value="选择第一个div" onclick="fun1()"/>
+<input type="button" id="btn02" value="选择最后一个div" onclick="fun2()"/>
+<input type="button" id="btn03" value="选择id值部位one的div" onclick="fun3()"/>
+<input type="button" id="btn04" value="选择class不包含c02的div" onclick="fun4()"/>
+<input type="button" id="btn05" value="选择索引号为奇数的div元素" onclick="fun5()"/>
+<input type="button" id="btn06" value="选择索引号为偶数的div元素" onclick="fun6()"/>
+<input type="button" id="btn07" value="选择索引号等于3的div元素" onclick="fun7()"/>
+<input type="button" id="btn08" value="选择索引号小于3的div元素" onclick="fun8()"/>
+<input type="button" id="btn09" value="选择索引号大于3的div元素" onclick="fun9()"/>
+<input type="button" id="btn10" value="选择所有标题元素" onclick="fun10()"/>
+</body>
+</html>
