@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>show&hide</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <style type="text/css">
+        #father{
+            width: 200px;
+            height: 200px;
+            background: green;
+            font-size: 30px;
+            color: red;
+            margin-bottom:10px;
+        }
+        #son{
+            width: 80px;
+            height: 80px;
+            background: yellow;
+            font-size: 20px;
+            color: red;
+            margin-bottom:10px;
+        }
+    </style>
+    <script>
+        function  fun1() {
+            $("#father").append($("#son"))
+        }
+        function  fun2() {
+            $("#son").appendTo($("#father"))
+        }
+    </script>
+</head>
+<body>
+<div id="father">
+    我是爸爸
+</div>
+<div id="son">
+    我是儿子
+</div>
+<input type="button" value="爸爸给自己找了个儿子" onclick="fun1()"/>
+<input type="button" value="儿子给自己找了爹" onclick="fun2()"/>
+</body>
+</html>
