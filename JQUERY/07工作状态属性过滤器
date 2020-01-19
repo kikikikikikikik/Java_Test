@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工作状态属性过滤器</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <script>
+        /*
+        val()
+        $obj.val():读取jquery对象中第一个DOM对象的value属性值
+        $obj.val("值")：为jquery对象中所有DOM对象的value属性值进行统一赋值
+         */
+        function  fun1() {
+            $(":text:enabled").val("可用文本框")
+        }
+        function  fun2() {
+            $(":text:disabled").val("不可用文本框")
+        }
+        function  fun3() {
+            $(":checkbox:checked").each(loop);
+        }
+        function loop(index,domObj) {
+            alert("第"+(index+1)+"个被选中的checkbox的value:"+$(domObj).val())
+        }
+        function fun4() {
+           // alert($("#city>option:selected").val())
+            alert($("#city").val())
+        }
+    </script>
+</head>
+<body>
+<!--定义文本框-->
+文本01：<input type="text" id="text01" value="value01"/><br>
+文本01：<input type="text" id="text02" value="value02" disabled/><br>
+文本01：<input type="text" id="text03" value="value03"/><br>
+文本01：<input type="text" id="text04" value="value04"disabled/><br>
+<br>
+<!--定义复选框-->
+<input type="checkbox" name="interest" value="reading" checked/>读书
+<input type="checkbox" name="interest" value="food" />美食
+<input type="checkbox" name="interest" value="travel" checked/>旅游
+<input type="checkbox" name="interest" value="music" />音乐
+<input type="checkbox" name="interest" value="shopping" checked/>购物
+<br><br>
+<!--定义下拉列表-->
+<select id="city">
+    <option value="bj" title="beijing" title="" selected>北京</option>
+    <option value="sh" title="shanghai">上海</option>
+    <option value="gz" title="guangzhou">广州</option>
+    <option value="sz" title="shenzhen">深圳</option>
+    <option value="hz" title="hangzhou">杭州</option>
+</select>
+<br><br>
+<!--定义测试按钮-->
+<button id="btn01"onclick="fun1()">选择可用文本框并修改其值</button>
+<button id="btn02"onclick="fun2()">选择不可用文本框并修改其值</button>
+<button id="btn03"onclick="fun3()">选择复选框被选中的元素</button>
+<button id="btn04" onclick="fun4()">选择下拉列表中被选中的元素</button>
+</body>
+</html>
