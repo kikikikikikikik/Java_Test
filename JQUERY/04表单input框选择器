@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单input框选择器</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <script>
+        function fun1() {
+            var $obj = $(":text");
+            var value = $obj.val();
+            alert("文本框的value值："+value)
+            /*
+            val()函数：
+                1.jquery对象中的一个功能函数
+                2.读取jquery对象中【第一个DOM对象】的value属性内容
+             */
+        }
+        function fun2() {
+            var value = $(":password").val();
+            alert("密码框的value值："+value)
+        }
+        function fun3() {
+            var $obj = $(":radio");
+            //jquery对象转换为dom对象
+           /* for(var i = 0;i<$obj.length;i++){
+                var domObj = $obj[i];
+                myFun(i,domObj);
+            }*/
+           $obj.each(myFun())
+            /*
+            each函数遍历jquery对象中的DOM对象
+            每次读取一个【下标值】和对应的【DOM对象】交给处理函数
+             */
+        }
+        function  myFun(index,domObj) {
+            alert("第"+(index+1)+"个radio标签的value是"+domObj.value)
+        }
+        function fun4() {
+            alert($(":file").val())
+        }
+    </script>
+</head>
+<body>
+    <!--定义表单-->
+    <form id="myForm" action="">
+        用户名：
+        <input type="text" name="username"/><br><br>
+        密&nbsp;&nbsp;码:
+        <input type="password" name="password"/><br><br>
+        性&nbsp;&nbsp;别:
+        <input type="radio" name="gender" value="1" checked/>男
+        <input type="radio" name="gender" value="0" />女<br><br>
+        照&nbsp;&nbsp;片：
+        <input type="file" name="photo"/><br><br>
+        兴&nbsp;&nbsp;趣：
+        <input type="checkbox" name="interest" value="music" checked/>音乐
+        <input type="checkbox" name="interest" value="food" />美食
+        <input type="checkbox" name="interest" value="travel" />旅游
+        <input type="checkbox" name="interest" value="shopping" />购物
+        <br><br>
+        <input type="submit" value="提交">
+    </form>
+    <br><br>
+    <!--定义按钮-->
+    <button id="btn01"onclick="fun1()">选择文本输入框并输出用户输入放入值</button>
+    <button id="btn02" onclick="fun2()">选择密码输入框输出用户输入的密码</button>
+    <button id="btn03" onclick="fun3()">选择单选框的value属性值</button>
+    <button id="btn04" onclick="fun4()">选择文件上传框并输出用户选择的文件</button>
+    <button id="btn05">选择复选框并输出用户选择的值</button>
+</body>
+</html>
