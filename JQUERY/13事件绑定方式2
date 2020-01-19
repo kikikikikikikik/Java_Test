@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件绑定方式2</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <script>
+        function fun1() {
+            $(":button:lt(3)").bind("click",dealFun)
+        }
+        function dealFun() {
+            alert($(this).val())
+        }
+        function fun2() {
+            $(":button:lt(2)").unbind("click")
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="大哥">
+    <input type="button" value="二哥">
+    <input type="button" value="三哥">
+    <br/>
+<input type="button" value="为前三个button绑定onclick" onclick="fun1()">
+    <input type="button" value="为前二个button解除onclick"onclick="fun2()">
+
+</body>
+</html>
