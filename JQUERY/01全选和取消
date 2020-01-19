@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+        function selectAll() {
+            //1.获得第一个checkbox的选中状态
+           var flag =  $("#selectAllBut").prop("checked");
+            //2.为所有数据行checkbox的选中状态设置
+            $(".ah").prop("checked",flag)
+        }
+    </script>
+</head>
+<body>
+    <!--this表示触发当前事件的html元素对象-->
+    <input type="checkbox" onclick="selectAll()" id="selectAllBut"/>全选<br/>
+    <input type="checkbox" class="ah" />吃<br/>
+    <input type="checkbox" class="ah" />喝<br/>
+    <input type="checkbox" class="ah" />玩<br/>
+</body>
+</html>
