@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件绑定方式1</title>
+    <script type="text/javascript" src="jquery-3.4.1.js"></script>
+    <script>
+        window.onload=main;
+        function main() {
+            $(":button").click(fun1)
+        }
+        function fun1() {
+            //this被单击的button的DOM对象
+            alert($(this).val())
+        }
+    </script>
+</head>
+<body>
+    <input type="button" value="大哥">
+    <input type="button" value="二哥">
+    <input type="button" value="三哥">
+
+</body>
+</html>
