@@ -1,0 +1,86 @@
+public class HashMap01<K,V> {
+    Node[] table;//位桶数组
+    int size;//存放的键值对的个数
+    public HashMap01() {
+        table = new Node[16];//长度一般定义为2的正数次方
+    }
+
+    public Object get(K key){
+        int hash = myHash(key.hashCode(),table.length);
+        V value = null;
+        if(table[hash] != null){
+            Node temp = table[hash];
+            while (temp != null){
+                if(temp.key.equals(key)){
+                    value = (V)temp.value;
+                    break;
+                }
+                temp = temp.next;
+            }
+        }
+        return value;
+    }
+    public void put(K key,V value){
+        //定义了新的节点对象
+        Node newNode = new Node();
+        newNode.hash = myHash(key.hashCode(),table.length);
+        newNode.key = key;
+        newNode.value = value;
+        newNode.next = null;
+        Node temp = table[newNode.hash];
+        Node last = null;
+        boolean rePeat = false;
+        if(temp == null){
+            //如果数组元素为空，则直接将新结点放进去
+            table[newNode.hash] = newNode;
+            size++;
+        }else{
+            //数组元素不为空，遍历对应链表
+            while(temp != null){
+                //判断key是否重复，如果重复，则覆盖
+                if(temp.key.equals(key)){
+                    System.out.println("key重复了！");
+                    temp.value = value;
+                    rePeat = true;
+                    break;
+                }else{
+                    last = temp;
+                    temp = temp.next;
+                    size++;
+                }
+            }
+            if(!rePeat){
+            last.next = newNode;
+            }
+        }
+    }
+
+    public int myHash(int v,int length){
+        return v&(length-1);
+    }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for(int i=0;i<table.length;i++){
+            Node temp = table[i];
+            while(temp != null){
+                sb.append(temp.key+":"+temp.value+" ");
+                temp = temp.next;
+            }
+        }
+        sb.setCharAt(sb.length()-1,']');
+        return sb.toString();
+    }
+    public static void main(String[] args) {
+        HashMap01<Integer,String> m = new HashMap01<>();
+        m.put(10,"aa");
+        m.put(20,"bb");
+        m.put(30,"cc");
+        m.put(53,"dd");
+        m.put(69,"ee");
+        m.put(85,"ff");
+        System.out.println(m);
+        System.out.println(m.get(85));
+    }
+}
