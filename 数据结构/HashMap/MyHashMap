@@ -4,7 +4,6 @@ public class HashMap01<K,V> {
     public HashMap01() {
         table = new Node[16];//长度一般定义为2的正数次方
     }
-
     public Object get(K key){
         int hash = myHash(key.hashCode(),table.length);
         V value = null;
