@@ -1,0 +1,69 @@
+package sxt_study;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class HappyCinema {
+    public static void main(String[] args) {
+        List<Integer> avaliable = new ArrayList<>();
+        avaliable.add(1);
+        avaliable.add(2);
+        avaliable.add(3);
+        avaliable.add(4);
+        avaliable.add(5);
+        List<Integer> seats1 = new ArrayList<>();
+        seats1.add(1);
+        seats1.add(2);
+        List<Integer> seats2 = new ArrayList<>();
+        seats2.add(1);
+        seats2.add(3);
+        Cinema c = new Cinema(avaliable,"太平洋");
+        new Thread(new HappyCustomer(c,seats1),"1号").start();
+        new Thread(new HappyCustomer(c,seats2),"2号").start();
+    }
+}
+//顾客
+class HappyCustomer implements Runnable{
+    Cinema cinema;
+    List<Integer> seats;
+
+    public HappyCustomer(Cinema cinema, List<Integer> seats) {
+        this.cinema = cinema;
+        this.seats = seats;
+    }
+
+    @Override
+    public void run() {
+        synchronized (cinema) {
+            boolean flag = cinema.bookTickets(seats);
+            if (flag) {
+                System.out.println("出票成功！" + Thread.currentThread().getName() + "-->位置为：" + seats);
+            } else {
+                System.out.println("出票失败！" + Thread.currentThread().getName() + "-->位置不够");
+
+            }
+        }
+    }
+}
+//影院
+class Cinema{
+    List<Integer> available;
+    String name;
+
+    public Cinema(List<Integer> available, String name) {
+        this.available = available;
+        this.name = name;
+    }
+    //购票
+    public boolean bookTickets(List<Integer> seats){
+        System.out.println("欢迎选购"+this.name+"可用位置为："+available);
+        List<Integer> copy = new ArrayList<>();
+        copy.addAll(available);
+        copy.removeAll(seats);
+        if(available.size()-copy.size()!=seats.size()){
+            return false;
+        }
+        available = copy;
+        return true;
+    }
+}
