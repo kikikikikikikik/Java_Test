@@ -72,7 +72,6 @@ class SynContainer{
 //馒头
 class Steamedbun{
     int id;
-
     public Steamedbun(int id) {
         this.id = id;
     }
