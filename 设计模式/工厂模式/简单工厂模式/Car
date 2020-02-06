@@ -1,0 +1,5 @@
+package 工厂模式.SimpleFactory;
+
+public interface Car {
+    public void run();
+}
