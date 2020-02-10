@@ -1,0 +1,67 @@
+package sgg_study.生产者消费者;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * 题目：一个初始值为零的变量，两个线程对其交替操作，一个加1，一个减一，5轮
+ * 1.线程     操作     资源类
+ * 2.判断     干活      通知
+ * 3.防止虚假唤醒机制
+ */
+class ShareData{
+    private int number = 0;
+    private Lock lock = new ReentrantLock();
+    private Condition condition = lock.newCondition();
+    public void increment() throws InterruptedException {
+        lock.lock();
+        //1.判断
+        while (number != 0){
+            //等待，不能生产
+            condition.await();
+        }
+        //2.干活
+        number++;
+        System.out.println(Thread.currentThread().getName()+"\t"+number);
+        //3.通知唤醒
+        condition.signalAll();
+    }
+    public void decrement() throws InterruptedException {
+        lock.lock();
+        //1.判断
+        while (number == 0){
+            //等待，不能生产
+            condition.await();
+        }
+        //2.干活
+        number--;
+        System.out.println(Thread.currentThread().getName()+"\t"+number);
+        //3.通知唤醒
+        condition.signalAll();
+    }
+
+}
+public class ProdConsumer_TraditionDemo {
+    public static void main(String[] args) {
+        ShareData shareData = new ShareData();
+        new Thread(()->{
+            for(int i=0;i<5;i++){
+                try {
+                    shareData.increment();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        },"AAA").start();
+        new Thread(()->{
+            for(int i=0;i<5;i++){
+                try {
+                    shareData.decrement();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        },"BBB").start();
+    }
+}
