@@ -16,25 +16,34 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MultipleThreadCatch {
+    private static AtomicInteger successCount = new AtomicInteger(0);
+    private static AtomicInteger failureCount = new AtomicInteger(0);
     private static class Job implements Runnable {
         private String url;
-        private MessageDigest messageDigest;
         private DataSource dataSource;
+        //private CountDownLatch countDownLatch;
 
-        public Job(String url, MessageDigest messageDigest, DataSource dataSource) {
+        public Job(String url,DataSource dataSource/*,CountDownLatch countDownLatch*/) {
             this.url = url;
-            this.messageDigest = messageDigest;
             this.dataSource = dataSource;
+            //this.countDownLatch = countDownLatch;
         }
 
         @Override
         public void run() {
+            WebClient client = new WebClient(BrowserVersion.CHROME);
+            client.getOptions().setJavaScriptEnabled(false);
+            client.getOptions().setCssEnabled(false);
             try {
-                WebClient client = new WebClient(BrowserVersion.CHROME);
-                client.getOptions().setJavaScriptEnabled(false);
-                client.getOptions().setCssEnabled(false);
+                MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+
                 HtmlPage page = client.getPage(url);
                 String xpath;
                 DomText domText;
@@ -94,18 +103,30 @@ public class MultipleThreadCatch {
                         statement.setString(5, content);
                         statement.setString(6, insertWords);
                         statement.executeUpdate();
-                        System.out.println(title + "插入成功！");
+                        //System.out.println(title + "插入成功！");
+                        successCount.getAndIncrement();
                     }
                 }
             }catch (IOException e){
                 e.printStackTrace();
+                failureCount.getAndIncrement();
             }catch (SQLException e){
+                if(!e.getMessage().contains("Duplicate entry")){
+                    e.printStackTrace();
+                    failureCount.getAndIncrement();
+                }else {
+                    successCount.getAndIncrement();
+                }
+            } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
+                failureCount.getAndIncrement();
             }
+           // countDownLatch.countDown();
         }
     }
 
-        public static void main(String[] args) throws IOException, SQLException, NoSuchAlgorithmException {
+        public static void main(String[] args) throws IOException, SQLException, NoSuchAlgorithmException, InterruptedException {
+            ExecutorService pool = Executors.newFixedThreadPool(30);
             WebClient client = new WebClient(BrowserVersion.CHROME);
             client.getOptions().setCssEnabled(false);
             client.getOptions().setJavaScriptEnabled(false);
@@ -136,11 +157,18 @@ public class MultipleThreadCatch {
             dataSource.setUseSSL(false);
             dataSource.setCharacterEncoding("UTF8");
 
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            CountDownLatch countDownLatch = new CountDownLatch(detailUrlList.size());
             //详情页的请求和解析
             for (String url : detailUrlList) {
-                Thread thread = new Thread(new Job(url, messageDigest, dataSource));
-                thread.start();
+                pool.execute(new Job(url,dataSource/*,countDownLatch*/));
             }
+            //等待所有诗都下载结束
+            //countDownLatch.countDown();
+            while (successCount.get()+failureCount.get() < detailUrlList.size()){
+                System.out.printf("一共%d首诗，成功%d，失败%d\r",detailUrlList.size(),successCount.get(),failureCount.get());
+                TimeUnit.MILLISECONDS.sleep(10);
+            }
+            System.out.println("全部下载成功");
+            pool.shutdown();
         }
     }
