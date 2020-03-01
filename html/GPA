@@ -1,0 +1,42 @@
+import java.util.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext()){
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            int[] grade = new int[n];
+            float result = 0;
+            float x = 0;
+            for(int i = 0;i<n;i++){
+                arr[i] = sc.nextInt();
+                x+=arr[i];
+            }
+            for(int i = 0;i<n;i++){
+                grade[i] = sc.nextInt();
+            }
+            for(int i = 0;i<n;i++){
+                if(grade[i]>=90){
+                    result+=4.0*arr[i];
+                }else if(grade[i]>=85){
+                    result+=3.7*arr[i];
+                }else if(grade[i]>=82){
+                    result+=3.3*arr[i];
+                }else if(grade[i]>=78){
+                    result+=3.0*arr[i];
+                }else if(grade[i]>=75){
+                    result+=2.7*arr[i];
+                }else if(grade[i]>=72){
+                    result+=2.3*arr[i];
+                }else if(grade[i]>=68){
+                    result+=2.0*arr[i];
+                }else if(grade[i]>=64){
+                    result+=1.5*arr[i];
+                }else if(grade[i]>=60){
+                    result+=1.0*arr[i];
+                }
+            }
+            System.out.printf("%.2f",result/x);
+        }
+    }
+}
