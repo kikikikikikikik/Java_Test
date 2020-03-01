@@ -1,0 +1,128 @@
+import java.util.Scanner;
+public class RMBConvert {
+    static String[] map = {"壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
+ 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNext()) {
+            String number = scanner.next();
+            resolve(number);
+        }
+        scanner.close();
+    }
+ 
+    private static void resolve(String str) {
+        String[] strArr = str.split("\\.");
+        int number = Integer.valueOf(str.split("\\.")[0]);  //取出整数部分
+        StringBuilder res = new StringBuilder("人民币");
+        int yi = number / 100000000;
+        if (yi != 0) {
+            res.append(convertBefore(yi)).append("亿");
+            number = number - yi * 100000000;
+        }
+        int wan = number / 10000;
+        if (wan != 0) {
+            if (wan < 10) {
+                res.append(map[wan - 1]).append("万");
+            } else {
+                res.append(convertBefore(wan)).append("万");
+            }
+            number = number - wan * 10000;
+        }
+        String beforePointString = convertBefore(number);
+ 
+        //含亿或万，不含仟但含佰或拾的情况  【注：含亿或万，不含仟佰拾，但含个位数的情况在后边会考虑到】
+        //例：110897.00 -> 人民币拾壹万零捌佰玖拾柒元整
+        //例：110097.00 -> 人民币拾壹万零玖拾柒元整
+        //例：10897.00 -> 人民币壹万零捌佰玖拾柒元整
+        //例：10097.00 -> 人民币壹万零玖拾柒元整
+        if (res.substring(3).length() != 0 && !beforePointString.contains("仟") && (beforePointString.contains("佰") || beforePointString.contains("拾"))) {
+            res.append("零");
+        }
+        //只要整数部分不为零，就应该加上"元"字，而不是单单只考虑仟佰拾个位 如：80000应读成人民币捌万元，而不是人民币捌万
+        if (beforePointString.length() != 0 || res.substring(3).length() != 0) {
+            res.append(beforePointString).append("元");
+        }
+        //表明有小数
+        if (strArr.length > 1) {
+            String afterPointStr = strArr[1];
+            res.append(convertAfter(afterPointStr));
+        }
+ 
+        String resString = res.toString();
+        //人民币三个字符之后的那个字符如果为零，就应该去掉
+        if (resString.length() > 4 && resString.charAt(3) == '零') {
+            resString = resString.substring(0, 3) + resString.substring(4);
+        }
+        System.out.println(resString);
+    }
+ 
+    private static String convertAfter(String afterPointStr) {
+        StringBuilder sb = new StringBuilder();
+        if (afterPointStr.equals("00")) {
+            return "整";
+        }
+ 
+        //不能直接用 除10的结果，例：9.9
+        int jiao = Integer.parseInt(afterPointStr.charAt(0) + "");
+        if (jiao != 0) {
+            sb.append(map[jiao - 1]).append("角");
+        }
+        if (afterPointStr.length() > 1) {
+            int fen = Integer.parseInt(afterPointStr.charAt(1) + "");
+            //注：9.09 应读成 人民币玖元玖分
+            if (fen != 0) {
+                sb.append(map[fen - 1]).append("分");
+            }
+        }
+        return sb.toString();
+    }
+ 
+    private static String convertBefore(double temp) {
+        StringBuilder resBu = new StringBuilder();
+        int qian = (int) (temp / 1000);
+        if (qian != 0) {
+            resBu.append(map[qian - 1]).append("仟");
+            temp = temp - qian * 1000;
+        }
+        int bai = (int) (temp / 100);
+        if (bai != 0) {
+            resBu.append(map[bai - 1]).append("佰");
+            temp = temp - bai * 100;
+        }
+        //千位不为0，百位为0，但十位或者个位不为零的情况
+        //此处的temp!=0条件不能少，不然会造成千位不为零，但百位十位个位都为零，却多加了一个"零"的情况  如：1000.00 -> 人民币壹仟零元整
+        //例：1000.00 -> 人民币壹仟元整   【注：如果仟位不为零，但百位十位个位都为零，就不应该在千位后边加"零"了】
+        //例：1100.00 -> 人民币壹仟壹佰元整
+        //例：1001.00 -> 人民币壹仟零壹元整
+        //例：1010.00 -> 人民币壹仟零拾元整
+        if (qian != 0 && bai == 0 && temp != 0) {
+            resBu.append("零");
+        }
+        int shi = (int) (temp / 10);
+        if (shi != 0) {
+            if (shi != 1) { //注：10.00 -> 人民币拾元整
+                resBu.append(map[shi - 1]);
+            }
+            //例：12.00 -> 人民币拾贰元整
+            resBu.append("拾");
+            temp = temp - shi * 10;
+        }
+        //百位不为零，十位为零，个位不为零的情况
+        //此处的temp!=0条件也不能少，不然会造成百位不为零，但十位个位都为零，却多加了一个"零"的情况  如：100.00 -> 人民币壹佰零元整
+        //例：1101.00 -> 人民币壹仟壹佰零壹元整
+        //例：101.00 -> 人民币壹佰零壹元整
+        if (bai != 0 && shi == 0 && temp != 0) {
+            resBu.append("零");
+        }
+        if (temp != 0) {
+            //千百十位都为零，但个位不为零的情况
+            //例：10001.00 -> 人民币壹万零壹元整
+            if (qian == 0 && bai == 0 && shi == 0) {
+                resBu.append("零");
+            }
+            resBu.append(map[(int) (temp - 1)]);
+        }
+        return resBu.toString();
+    }
+}
